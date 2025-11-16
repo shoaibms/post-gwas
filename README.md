@@ -64,14 +64,14 @@ Modulators act as **environment-gated switches** at proximal regulatory elements
 ┌────────────────────────────────────────────────────┐
 │  NETWORK MODULATORS (n=31)                         │
 │  • Non-linear, environment-dependent               │
-│  • TSS-proximal cis-regulatory control            │
+│  • TSS-proximal cis-regulatory control             │
 │  • Stress/ABA/osmotic GO enrichment                │
-│  • Window-stable (±500kb ↔ ±2Mb)                  │
-│                                                     │
+│  • Window-stable (±500kb ↔ ±2Mb)                   │
+│                                                    │
 │  ADDITIVE DRIVERS (n=182)                          │
 │  • Linear genetic effects                          │
 │  • Translation/photosynthesis/metabolism           │
-│  • Functionally decoupled (Jaccard=0 with mods)   │
+│  • Functionally decoupled (Jaccard=0 with mods)    │
 └────────────────────────────────────────────────────┘
 ```
 
