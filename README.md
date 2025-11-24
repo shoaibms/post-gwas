@@ -1,4 +1,4 @@
-## Proximal cis-regulatory variants organize maize drought genotype-by-environment architecture
+## Proximal cis-regulatory variants organise maize drought genotype-by-environment architecture
 
 ![Status](https://img.shields.io/badge/status-manuscript%20in%20preparation-yellow)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://opensource.org/licenses/MIT)
