@@ -1,4 +1,4 @@
-## Proximal cis-regulatory variants organise maize drought genotype-by-environment architecture
+## Proximal cis-regulatory variants organize maize drought genotype-by-environment architecture
 
 ![Status](https://img.shields.io/badge/status-manuscript%20in%20preparation-yellow)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://opensource.org/licenses/MIT)
@@ -43,8 +43,8 @@ Classical GWAS excels at additive effects but obscures non-linear, environment-d
 | **Proximal Regulatory Control** | 49.5% SNPs in regulatory elements (3.48× vs background, p=4.84×10⁻¹⁴) |
 | **TF Binding Proximity** | 2.93× enrichment within 1 kb of TF ChIP-seq peaks (p=1.81×10⁻³)<br/>*Source: Tu et al. 2020 maize leaf ChIP-seq (104 TFs), filtered z-score ≥3.0* |
 | **ieQTL Validation** | 18/31 modulators significant at gene-level q < 0.10 (58%); 9/16 lead SNPs overlap TF peaks |
-| **Functional Decoupling** | Zero GO term overlap (modulators: stress; drivers: constitutive) |
-| **Mechanism ≠ Prediction** | Modest phenotypic gain (ΔR²=0.103, p=0.14) despite strong mechanistic signals |
+| **Functional Decoupling** | Zero GO term overlap (modulators: PSII photoinhibition/development; drivers: transport/cellular) |
+| **Mechanism ≠ Prediction** | Modest phenotypic gain (ΔR²=0.076, p=0.08) despite strong mechanistic signals |
 
 ---
 
@@ -65,12 +65,12 @@ Modulators act as **environment-gated switches** at proximal regulatory elements
 │  NETWORK MODULATORS (n=31)                         │
 │  • Non-linear, environment-dependent               │
 │  • TSS-proximal cis-regulatory control             │
-│  • Stress/ABA/osmotic GO enrichment                │
+│  • PSII photoinhibition/development GO enrichment  │
 │  • Window-stable (±500kb ↔ ±2Mb)                   │
 │                                                    │
 │  ADDITIVE DRIVERS (n=182)                          │
 │  • Linear genetic effects                          │
-│  • Translation/photosynthesis/metabolism           │
+│  • Transport/cell division/cellular processes      │
 │  • Functionally decoupled (Jaccard=0 with mods)    │
 └────────────────────────────────────────────────────┘
 ```
@@ -146,8 +146,8 @@ flowchart TB
     U --> AB
     
     subgraph Functional["6. Functional Analysis"]
-        AB[GO Enrichment] --> AC1[Modulators:<br/>stress/ABA/osmotic]
-        AB --> AC2[Drivers:<br/>translation/metabolism]
+        AB[GO Enrichment] --> AC1[Modulators:<br/>PSII photoinhibition/development]
+        AB --> AC2[Drivers:<br/>transport/cellular]
         AC1 --> AD{Term<br/>Overlap?}
         AC2 --> AD
         AD -->|Jaccard=0| AE[Complete<br/>Decoupling]
@@ -158,7 +158,7 @@ flowchart TB
     subgraph Prediction["7. Predictive Modeling"]
         AF[93 modulator SNPs] --> AG[Ridge Regression<br/>5-fold CV]
         AG --> AH[PC1 drought<br/>phenotype]
-        AH --> AI[ΔR²=0.103<br/>p=0.14]
+        AH --> AI[ΔR²=0.076<br/>p=0.08]
         AI --> AJ[Mechanism ≠<br/>Prediction]
     end
     
@@ -404,10 +404,10 @@ Statistical Signal → ieQTL Validation → MPRA/Base Editing → Field Testing
 ✅ **Multi-model convergence** resolves non-linear G×E as coherent regulatory class  
 ✅ **Window stability** separates biology from tuning artifacts (ρ ≈ 0.82 across windows)  
 ✅ **Proximal cis-control** concentrates at TSS-adjacent elements  
-✅ **Functional decoupling** reveals distinct biological programs (stress vs constitutive)
+✅ **Functional decoupling** reveals distinct biological programs (PSII photoinhibition/development vs transport/cellular)
 
 ### What Surprised Us
-❗ **Mechanism ≠ Prediction:** Strong regulatory signals, modest phenotypic gain (ΔR²=0.103)  
+❗ **Mechanism ≠ Prediction:** Strong regulatory signals, modest phenotypic gain (ΔR²=0.076)  
 → *Explanation:* Polygenic buffering, trans-regulatory compensation, network degeneracy
 
 ❗ **Complete GO separation:** Zero term overlap (Jaccard=0) between modulators and drivers  
@@ -450,7 +450,7 @@ Statistical Signal → ieQTL Validation → MPRA/Base Editing → Field Testing
 
 - Liu et al. (2020) and Zhang et al. (2021) for public maize drought datasets
 - MaizeGDB and Ensembl Plants for reference genome resources
-
+- [Funding sources and computational resources to be added]
 
 ---
 
