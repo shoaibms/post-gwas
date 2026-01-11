@@ -450,7 +450,6 @@ Statistical Signal → ieQTL Validation → MPRA/Base Editing → Field Testing
 
 - Liu et al. (2020) and Zhang et al. (2021) for public maize drought datasets
 - MaizeGDB and Ensembl Plants for reference genome resources
-- [Funding sources and computational resources to be added]
 
 ---
 
