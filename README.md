@@ -44,7 +44,7 @@ Classical GWAS excels at additive effects but obscures non-linear, environment-d
 | **TF Binding Proximity** | 2.93× enrichment within 1 kb of TF ChIP-seq peaks (p=1.81×10⁻³)<br/>*Source: Tu et al. 2020 maize leaf ChIP-seq (104 TFs), filtered z-score ≥3.0* |
 | **ieQTL Validation** | 18/31 modulators significant at gene-level q < 0.10 (58%); 9/16 lead SNPs overlap TF peaks |
 | **Functional Decoupling** | Zero GO term overlap (modulators: PSII photoinhibition/development; drivers: transport/cellular) |
-| **Mechanism ≠ Prediction** | Modest phenotypic gain (ΔR²=0.076, p=0.08) despite strong mechanistic signals |
+| **Mechanism ≠ Prediction** | Modest phenotypic gain (ΔR²=0.075, p=0.08) despite strong mechanistic signals |
 
 ---
 
