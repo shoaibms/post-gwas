@@ -407,7 +407,7 @@ Statistical Signal → ieQTL Validation → MPRA/Base Editing → Field Testing
 ✅ **Functional decoupling** reveals distinct biological programs (PSII photoinhibition/development vs transport/cellular)
 
 ### What Surprised Us
-❗ **Mechanism ≠ Prediction:** Strong regulatory signals, modest phenotypic gain (ΔR²=0.076)  
+❗ **Mechanism ≠ Prediction:** Strong regulatory signals, modest phenotypic gain (ΔR²=0.075)  
 → *Explanation:* Polygenic buffering, trans-regulatory compensation, network degeneracy
 
 ❗ **Complete GO separation:** Zero term overlap (Jaccard=0) between modulators and drivers  
