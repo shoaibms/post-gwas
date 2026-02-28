@@ -10,7 +10,7 @@ Generate all main and supplementary figures from the processed datasets and mode
   - `output/ect/runs/<run_id>/ect_oof_r2_by_gene.csv` and related diagnostics (if required by a figure)
   - LMM outputs as defined in `REPRODUCE_03_lmm.md` (if required by a figure)
 - **Software:** Python 3.9+ and packages in `requirements.txt`.
-- **Run location:** project root, e.g. `C:\Users\ms\Desktop\gwas\`.
+- **Run location:** repository root (e.g. `C:\Users\...\post-gwas\` on Windows, or the cloned repo directory on Linux/macOS).
 
 > Note: Figure scripts import local helpers from `code/04_figures/infrastructure/` (`colour_config.py`, `data_loader_gwas.py`) and `code/04_figures/stat_utils.py`. The `stat_utils.py` module resides at the root of the `04_figures/` directory, not inside `infrastructure/`.
 
@@ -48,15 +48,11 @@ python code/04_figures/supplementary/figure_s6.py
 ```
 
 ### Outputs
-Each script saves bitmap and vector versions to:
-- `output/figures/main/` for Figures 1–4
-- `output/figures/supplementary/` for Figures S1–S6
-
-Filenames are created by the scripts (e.g., `fig01.png`, `fig01.pdf`); if an `--out-dir` argument is supported, it overrides the default.
+Outputs are written to the directory set by `OUTPUT_DIR` at the top of each figure script. By default, scripts write under `figures/output/`. If an `--out-dir` argument is supported, it overrides the default.
 
 ---
 
 ## Notes on Reproducibility
 - Scripts are pure-Python and deterministic given fixed inputs; no random seeds are used unless stated in the script header.
 - Colour palettes and fonts are centralized in `code/04_figures/infrastructure/colour_config.py` to ensure consistent styling.
-- If paths differ from defaults, edit the small path block at the top of each figure script (or pass an `--out-dir` if available).
+- If paths differ from defaults, edit the `OUTPUT_DIR` variable at the top of each figure script (or pass an `--out-dir` if available).
