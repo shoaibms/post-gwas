@@ -187,90 +187,94 @@ flowchart TB
 📦 post-gwas/
 │
 ├── 📄 README.md                                        # This file
+├── 📄 requrement.txt                                   # Python dependencies (note: typo in filename)
+│
 ├── 📂 data/
 │   ├── 📄 Data_note.md                                 # Comprehensive data documentation
 │   ├── 📦 supplementary_data.zip                       # Supplementary data files (DS1–DS3)
 │   └── 📦 supplementary_tables.zip                     # Supplementary tables (S1–S7)
-├── 📄 requirement.txt                                  # Python dependencies 
 │
-├── 📂 01_data_preprocessing/
-│   ├── 📄 REPRODUCE_01_preprocessing.md                # Step-by-step preprocessing guide
-│   ├── 📜 00_audit_raw_inputs.py                       # Audit of raw VCF, FPKM, and metadata integrity
-│   ├── 📜 01_filter_expression_to_agpv4.py             # Filters FPKM files to retain only AGPv4 genes
-│   ├── 📜 02_prepare_model_inputs.py                   # Generates all model-ready data (T_long, P, geno)
-│   ├── 📜 03_check_cis_coverage.py                     # Validates SNP coverage for genes post-processing
-│   └── 📜 04_verify_agpv4_ids.py                       # Confirms final files use strict AGPv4 format
-│
-├── 📂 02_transformer_modeling/
-│   ├── 📄 REPRODUCE_02_transformer.md                  # Transformer training guide
-│   ├── 📜 01_build_transformer_bundle.py               # Assembles ECT data bundle with manifest
-│   └── 📜 02_train_env_conditional_transformer.py      # Cross-validated ECT training with diagnostics
-│
-├── 📂 03_lmm_baselines_confirmatory/
-│   ├── 📄 REPRODUCE_03_lmm.md                          # LMM analysis guide
-│   ├── 📂 00_data_clean_up/
-│   │   └── 📜 02_freeze_accession_cohorts.py           # Creates frozen accession lists for reproducible cohorts
-│   ├── 📂 01_gene_selection_and_identifiers/
-│   │   ├── 📜 01_correct_gene_identifiers.py           # Utility to normalize AGPv4 gene IDs
-│   │   └── 📜 02_select_eqtl_informed_genes.py         # Selects target genes using published eQTL data
-│   ├── 📂 02_primary_gxe_lmm_analysis/
-│   │   ├── 📜 01_run_robust_lmm.py                     # Main LMM for G×E effects and ΔR² reported in manuscript
-│   │   └── 📜 02_validate_lmm_results.py               # Generates diagnostic plots/summaries for the LMM
-│   ├── 📂 03_baseline_and_comparative_models/
-│   │   ├── 📜 01_run_baseline_matrix_eqtl.R            # Standard per-environment MatrixEQTL analysis
-│   │   ├── 📜 02_run_cees_prediction.R                 # Cross-Environment eQTL Scoring (CEES) analysis
-│   │   └── 📜 03_build_environment_gene_panels.R       # Builds per-environment gene panels for stability analysis
-│   └── 📂 04_confirmatory_analysis/
-│       ├── 📜 01_build_confirmatory_gene_set.py        # Builds the 21-gene list from top LMM results
-│       └── 📜 02_analyze_confirmatory_set.py           # Runs and summarizes the confirmatory analysis
-│
-├── 📂 04_figures/
-│   ├── 📄 REPRODUCE_04_figures.md                      # Figure generation guide
-│   ├── 📜 stat_utils.py                                # Statistical helper functions
-│   ├── 📂 infrastructure/
-│   │   ├── 📜 colour_config.py                         # Centralized color palettes and styling
-│   │   └── 📜 data_loader_gwas.py                      # Curated data loading utilities for figures
-│   ├── 📂 main/
-│   │   ├── 📜 figure_01.py                             # Multi-model convergence and window-stable platinum set
-│   │   ├── 📜 figure_02.py                             # Modulator SNP enrichment in proximal regulatory regions
-│   │   ├── 📜 figure_03.py                             # Interaction eQTL evidence and variant prioritisation
-│   │   └── 📜 figure_04.py                             # Functional decoupling and predictive leverage
-│   └── 📂 supplementary/
-│       ├── 📜 figure_s1.py                             # Window-stability of cis G×E calls
-│       ├── 📜 figure_s2.py                             # Consequence- and distance-specific enrichment
-│       ├── 📜 figure_s3.py                             # Proximity to transcription-factor binding
-│       ├── 📜 figure_s4.py                             # Independent ieQTL validation
-│       ├── 📜 figure_s5.py                             # Representative TF-proximal modulator loci
-│       └── 📜 figure_s6.py                             # GO-term decoupling between modulators and drivers
-│
-├── 📂 05_postgwas_analysis/
-│   ├── 📄 REPRODUCE_05_postGWAS.md                     # Post-GWAS analysis guide
-│   ├── 📜 create_de_literature_lists.py                # Generates 500-gene DE panel from WS2 vs WW paired t-test
-│   ├── 📜 create_tf_bed.py                             # Converts Tu et al. 2020 ChIP-seq data to TF binding BED
-│   ├── 📜 fetch_jaspar_metadata.py                     # Downloads JASPAR plant CORE motif metadata (family, class)
-│   ├── 📂 01_platinum_set_definition/
-│   │   ├── 📜 01_run_window_stability.py               # Window stability analysis across ±500kb/1Mb/2Mb
-│   │   └── 📜 02_select_influential_snps.py            # Selects top cis-SNPs for each platinum modulator
-│   ├── 📂 02_snp_characterisation/
-│   │   ├── 📜 01_generate_matched_background.py        # Creates distance-matched control SNPs (10:1 ratio)
-│   │   ├── 📜 02_run_consequence_enrichment.py         # VEP consequence enrichment analysis
-│   │   └── 📜 03_run_tf_proximity_analysis.py          # TF binding site proximity analysis
-│   ├── 📂 03_functional_decoupling/
-│   │   ├── 📜 01_download_go_annotations.py            # Downloads AGPv4 GO annotations
-│   │   └── 📜 02_run_go_enrichment.py                  # Hypergeometric GO enrichment test
-│   ├── 📂 04_predictive_modeling/
-│   │   ├── 📜 01_prepare_nrs_data.py                   # Prepares data for nested ridge regression
-│   │   └── 📜 02_run_nrs_prediction.py                 # Ridge regression with 5-fold CV
-│   └── 📂 05_mechanistic_validation/
-│       ├── 📜 01_run_ieqtl_discovery.py                # Δ-expression ieQTL mapping with robust SE
-│       ├── 📜 02_finalize_ieqtl_results.py             # Gene-level FDR correction and summary
-│       ├── 📜 03_download_motif_data.py                # Downloads JASPAR plant PWMs
-│       ├── 📜 04_run_motif_disruption.py               # ΔLLR motif disruption analysis
-│       ├── 📜 05_attach_tf_families.py                 # Annotates TF families from JASPAR metadata
-│       └── 📜 06_generate_motif_summary.py             # Summarizes motif disruption results
-│
-└── 📂 06_sup_building_&_misc/
-    └── 📜 build_supplement_v5.py                       # Builds supplementary tables (S1–S7) and data files (DS1–DS3)
+└── 📂 code/
+    │
+    ├── 📂 01_data_preprocessing/
+    │   ├── 📄 REPRODUCE_01_preprocessing.md            # Step-by-step preprocessing guide
+    │   ├── 📜 00_audit_raw_inputs.py                   # Audit of raw VCF, FPKM, and metadata integrity
+    │   ├── 📜 01_filter_expression_to_agpv4.py         # Filters FPKM files to retain only AGPv4 genes
+    │   ├── 📜 02_prepare_model_inputs.py               # Generates all model-ready data (T_long, P, geno)
+    │   ├── 📜 03_check_cis_coverage.py                 # Validates SNP coverage for genes post-processing
+    │   └── 📜 04_verify_agpv4_ids.py                   # Confirms final files use strict AGPv4 format
+    │
+    ├── 📂 02_transformer_modeling/
+    │   ├── 📄 REPRODUCE_02_transformer.md              # Transformer training guide
+    │   ├── 📜 01_build_transformer_bundle.py           # Assembles ECT data bundle with manifest
+    │   └── 📜 02_train_env_conditional_transformer.py  # Cross-validated ECT training with diagnostics
+    │
+    ├── 📂 03_lmm_baselines_confirmatory/
+    │   ├── 📄 REPRODUCE_03_lmm.md                      # LMM analysis guide
+    │   ├── 📂 00_data_clean_up/
+    │   │   └── 📜 02_freeze_accession_cohorts.py       # Creates frozen accession lists for reproducible cohorts
+    │   ├── 📂 01_gene_selection_and_identifiers/
+    │   │   ├── 📜 01_correct_gene_identifiers.py       # Utility to normalize AGPv4 gene IDs
+    │   │   └── 📜 02_select_eqtl_informed_genes.py     # Selects target genes using published eQTL data
+    │   ├── 📂 02_primary_gxe_lmm_analysis/
+    │   │   ├── 📜 01_run_robust_lmm.py                 # Main LMM for G×E effects and ΔR² reported in manuscript
+    │   │   └── 📜 02_validate_lmm_results.py           # Generates diagnostic plots/summaries for the LMM
+    │   ├── 📂 03_baseline_and_comparative_models/
+    │   │   ├── 📜 01_run_baseline_matrix_eqtl.R        # Standard per-environment MatrixEQTL analysis
+    │   │   ├── 📜 02_run_cees_prediction.R             # Cross-Environment eQTL Scoring (CEES) analysis
+    │   │   └── 📜 03_build_environment_gene_panels.R   # Builds per-environment gene panels for stability analysis
+    │   └── 📂 04_confirmatory_analysis/
+    │       ├── 📜 01_build_confirmatory_gene_set.py    # Builds the 21-gene list from top LMM results
+    │       └── 📜 02_analyze_confirmatory_set.py       # Runs and summarizes the confirmatory analysis
+    │
+    ├── 📂 04_figures/
+    │   ├── 📄 REPRODUCE_04_figures.md                  # Figure generation guide
+    │   ├── 📜 stat_utils.py                            # Statistical helper functions
+    │   ├── 📂 infrastructure/
+    │   │   ├── 📜 colour_config.py                     # Centralized color palettes and styling
+    │   │   └── 📜 data_loader_gwas.py                  # Curated data loading utilities for figures
+    │   ├── 📂 main/
+    │   │   ├── 📜 figure_01.py                         # Multi-model convergence and window-stable platinum set
+    │   │   ├── 📜 figure_02.py                         # Modulator SNP enrichment in proximal regulatory regions
+    │   │   ├── 📜 figure_03.py                         # Interaction eQTL evidence and variant prioritisation
+    │   │   └── 📜 figure_04.py                         # Functional decoupling and predictive leverage
+    │   └── 📂 supplementary/
+    │       ├── 📜 figure_s1.py                         # Window-stability of cis G×E calls
+    │       ├── 📜 figure_s2.py                         # Consequence- and distance-specific enrichment
+    │       ├── 📜 figure_s3.py                         # Proximity to transcription-factor binding
+    │       ├── 📜 figure_s4.py                         # Independent ieQTL validation
+    │       ├── 📜 figure_s5.py                         # Representative TF-proximal modulator loci
+    │       └── 📜 figure_s6.py                         # GO-term decoupling between modulators and drivers
+    │
+    ├── 📂 05_postgwas_analysis/
+    │   ├── 📄 REPRODUCE_05_postGWAS.md                 # Post-GWAS analysis guide
+    │   ├── 📜 create_de_literature_lists.py            # Generates 500-gene DE panel from WS2 vs WW paired t-test
+    │   ├── 📜 create_tf_bed.py                         # Converts Tu et al. 2020 ChIP-seq data to TF binding BED
+    │   ├── 📜 fetch_jaspar_metadata.py                 # Downloads JASPAR plant CORE motif metadata (family, class)
+    │   ├── 📂 01_platinum_set_definition/
+    │   │   ├── 📜 01_run_window_stability.py           # Window stability analysis across ±500kb/1Mb/2Mb
+    │   │   └── 📜 02_select_influential_snps.py        # Selects top cis-SNPs for each platinum modulator
+    │   ├── 📂 02_snp_characterisation/
+    │   │   ├── 📜 01_generate_matched_background.py    # Creates distance-matched control SNPs (10:1 ratio)
+    │   │   ├── 📜 02_run_consequence_enrichment.py     # VEP consequence enrichment analysis
+    │   │   └── 📜 03_run_tf_proximity_analysis.py      # TF binding site proximity analysis
+    │   ├── 📂 03_functional_decoupling/
+    │   │   ├── 📜 01_download_go_annotations.py        # Downloads AGPv4 GO annotations
+    │   │   └── 📜 02_run_go_enrichment.py              # Hypergeometric GO enrichment test
+    │   ├── 📂 04_predictive_modeling/
+    │   │   ├── 📜 01_prepare_nrs_data.py               # Prepares data for nested ridge regression
+    │   │   └── 📜 02_run_nrs_prediction.py             # Ridge regression with 5-fold CV
+    │   └── 📂 05_mechanistic_validation/
+    │       ├── 📜 01_run_ieqtl_discovery.py            # Δ-expression ieQTL mapping with robust SE
+    │       ├── 📜 02_finalize_ieqtl_results.py         # Gene-level FDR correction and summary
+    │       ├── 📜 03_download_motif_data.py            # Downloads JASPAR plant PWMs
+    │       ├── 📜 04_run_motif_disruption.py           # ΔLLR motif disruption analysis
+    │       ├── 📜 05_attach_tf_families.py             # Annotates TF families from JASPAR metadata
+    │       └── 📜 06_generate_motif_summary.py         # Summarizes motif disruption results
+    │
+    └── 📂 06_sup_building_&_misc/
+        └── 📜 build_supplement_v5.py                   # Builds supplementary tables (S1–S7) and data files (DS1–DS3)
+
 ```
 
 ---
@@ -328,11 +332,11 @@ python code/05_postgwas_analysis/05_mechanistic_validation/01_run_ieqtl_discover
 
 **Step-by-step reproducibility guides:**
 
-1. **[REPRODUCE_01_preprocessing.md](REPRODUCE_01_preprocessing.md)** → Data QC, AGPv4 filtering, PLINK2 pipeline
-2. **[REPRODUCE_02_transformer.md](REPRODUCE_02_transformer.md)** → ECT bundle creation and training
-3. **[REPRODUCE_03_lmm.md](REPRODUCE_03_lmm.md)** → Robust LMM, baselines (MatrixEQTL, CEES)
-4. **[REPRODUCE_04_figures.md](REPRODUCE_04_figures.md)** → Main and supplementary figures (PNG + PDF)
-5. **[REPRODUCE_05_postGWAS.md](REPRODUCE_05_postGWAS.md)** → Window stability, ieQTL, motif disruption
+1. **[REPRODUCE_01_preprocessing.md](code/01_data_preprocessing/REPRODUCE_01_preprocessing.md)** → Data QC, AGPv4 filtering, PLINK2 pipeline
+2. **[REPRODUCE_02_transformer.md](code/02_transformer_modeling/REPRODUCE_02_transformer.md)** → ECT bundle creation and training
+3. **[REPRODUCE_03_lmm.md](code/03_lmm_baselines_confirmatory/REPRODUCE_03_lmm.md)** → Robust LMM, baselines (MatrixEQTL, CEES)
+4. **[REPRODUCE_04_figures.md](code/04_figures/REPRODUCE_04_figures.md)** → Main and supplementary figures (PNG + PDF)
+5. **[REPRODUCE_05_postGWAS.md](code/05_postgwas_analysis/REPRODUCE_05_postGWAS.md)** → Window stability, ieQTL, motif disruption
 
 ---
 
