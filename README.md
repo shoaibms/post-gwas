@@ -187,7 +187,10 @@ flowchart TB
 📦 post-gwas/
 │
 ├── 📄 README.md                                        # This file
-├── 📄 Data_note.md                                     # Comprehensive data documentation
+├── 📂 data/
+│   ├── 📄 Data_note.md                                 # Comprehensive data documentation
+│   ├── 📦 supplementary_data.zip                       # Supplementary data files (DS1–DS3)
+│   └── 📦 supplementary_tables.zip                     # Supplementary tables (S1–S7)
 ├── 📄 requrement.txt                                   # Python dependencies (note: typo in filename)
 │
 ├── 📂 01_data_preprocessing/
