@@ -187,7 +187,7 @@ flowchart TB
 📦 post-gwas/
 │
 ├── 📄 README.md                                        # This file
-├── 📄 requrement.txt                                   # Python dependencies (note: typo in filename)
+├── 📄 requirements.txt                                 # Python dependencies (note: typo in filename)
 │
 ├── 📂 data/
 │   ├── 📄 Data_note.md                                 # Comprehensive data documentation
@@ -287,7 +287,7 @@ flowchart TB
 # Clone and install
 git clone https://github.com/shoaibms/post-gwas.git
 cd post-gwas
-pip install -r requrements.txt
+pip install -r requirements.txt
 
 # R packages (for baselines)
 Rscript -e "install.packages(c('data.table', 'MatrixEQTL', 'arrow', 'jsonlite'))"
