@@ -1,7 +1,7 @@
 # REPRODUCE_03_lmm — LMM, Baselines, and Confirmatory Analysis
 
 ## Objective
-This guide details the execution of the manuscript's core analytical workflows. It begins by establishing performance baselines with standard eQTL methods, proceeds to the primary Genotype-by-Environment (G×E) discovery using our robust Linear Mixed Model (LMM), and concludes with a targeted validation of the top G×E candidate genes.
+This guide details the execution of the manuscript's core analytical workflows. It begins with data cleanup and cohort freezing, establishes performance baselines with standard eQTL methods, proceeds to the primary Genotype-by-Environment (G×E) discovery using our robust Linear Mixed Model (LMM), and concludes with a targeted validation of the top G×E candidate genes.
 
 ---
 
@@ -38,13 +38,56 @@ Run all commands from the project root:
 C:\Users\ms\Desktop\gwas\
 ```
 
-### Step 1 — Run Baseline eQTL Analyses (R)
+### Step 0 — Data Clean-Up and Cohort Freezing
+
+#### 0a — Freeze Accession Cohorts
+Creates frozen accession lists from the coverage matrix to ensure reproducible cohort definitions across all downstream analyses.
+
+**Script:** `code/03_lmm_baselines_confirmatory/00_data_clean_up/02_freeze_accession_cohorts.py`
+```bash
+python code/03_lmm_baselines_confirmatory/00_data_clean_up/02_freeze_accession_cohorts.py
+```
+**Key Outputs** (created under `output/cohort/`):
+```
+core_all3_env.csv
+G_and_anyT.csv
+labeled_P.csv
+```
+
+---
+
+### Step 1 — Gene Selection and Identifier Correction
+
+#### 1a — Correct Gene Identifiers
+Normalizes gene IDs in ECT result files to strict AGPv4 format.
+
+**Script:** `code/03_lmm_baselines_confirmatory/01_gene_selection_and_identifiers/01_correct_gene_identifiers.py`
+```bash
+python code/03_lmm_baselines_confirmatory/01_gene_selection_and_identifiers/01_correct_gene_identifiers.py
+```
+**Key Outputs** (e.g., under `output\ect_v3m_drought_full_100\`):
+```
+ect_oof_r2_by_gene_corrected.csv
+ect_cis_mass_by_env_corrected.csv
+```
+
+#### 1b — Select eQTL-Informed Gene Panel
+Selects target genes using published eQTL data to define the analysis gene set.
+
+**Script:** `code/03_lmm_baselines_confirmatory/01_gene_selection_and_identifiers/02_select_eqtl_informed_genes.py`
+```bash
+python code/03_lmm_baselines_confirmatory/01_gene_selection_and_identifiers/02_select_eqtl_informed_genes.py
+```
+
+---
+
+### Step 2 — Run Baseline eQTL Analyses (R)
 These scripts establish performance baselines for comparison against the primary LMM.
 
-#### 1a — Standard Per-Environment eQTL Discovery
-**Script:** `code/03_baseline_and_comparative_models/01_run_baseline_matrix_eqtl.R`
+#### 2a — Standard Per-Environment eQTL Discovery
+**Script:** `code/03_lmm_baselines_confirmatory/03_baseline_and_comparative_models/01_run_baseline_matrix_eqtl.R`
 ```bash
-Rscript code/03_baseline_and_comparative_models/01_run_baseline_matrix_eqtl.R
+Rscript code/03_lmm_baselines_confirmatory/03_baseline_and_comparative_models/01_run_baseline_matrix_eqtl.R
 ```
 **Key Outputs** (created under `output/baselines_eqtl/`):
 ```
@@ -54,10 +97,10 @@ WS2/cis_eqtls_significant.txt
 analysis_metadata.json
 ```
 
-#### 1b — Cross-Environment eQTL Scoring (CEES)
-**Script:** `code/03_baseline_and_comparative_models/02_run_cees_prediction.R`
+#### 2b — Cross-Environment eQTL Scoring (CEES)
+**Script:** `code/03_lmm_baselines_confirmatory/03_baseline_and_comparative_models/02_run_cees_prediction.R`
 ```bash
-Rscript code/03_baseline_and_comparative_models/02_run_cees_prediction.R
+Rscript code/03_lmm_baselines_confirmatory/03_baseline_and_comparative_models/02_run_cees_prediction.R
 ```
 **Key Outputs** (created under `output/cees_analysis/`):
 ```
@@ -65,10 +108,10 @@ cees_detailed_results.csv
 cees_summary_statistics.csv
 ```
 
-#### 1c — Build Per-Environment Gene Panels for Stability Analysis
-**Script:** `code/03_baseline_and_comparative_models/03_build_environment_gene_panels.R`
+#### 2c — Build Per-Environment Gene Panels for Stability Analysis
+**Script:** `code/03_lmm_baselines_confirmatory/03_baseline_and_comparative_models/03_build_environment_gene_panels.R`
 ```bash
-Rscript code/03_baseline_and_comparative_models/03_build_environment_gene_panels.R
+Rscript code/03_lmm_baselines_confirmatory/03_baseline_and_comparative_models/03_build_environment_gene_panels.R
 ```
 **Key Outputs** (created under `output/data/`):
 ```
@@ -78,13 +121,13 @@ eqtl_panel_paths.rds
 
 ---
 
-### Step 2 — Execute & Validate the Primary G×E LMM
+### Step 3 — Execute & Validate the Primary G×E LMM
 This is the core discovery engine of the manuscript.
 
-#### 2a — Run Robust LMM for G×E Discovery
-**Script:** `code/02_primary_gxe_lmm_analysis/01_run_robust_lmm.py`
+#### 3a — Run Robust LMM for G×E Discovery
+**Script:** `code/03_lmm_baselines_confirmatory/02_primary_gxe_lmm_analysis/01_run_robust_lmm.py`
 ```bash
-python code/02_primary_gxe_lmm_analysis/01_run_robust_lmm.py ^
+python code/03_lmm_baselines_confirmatory/02_primary_gxe_lmm_analysis/01_run_robust_lmm.py ^
   --data-file  output\ect\bundles\transformer_data_win1Mb.pt ^
   --output-dir output\robust_lmm_analysis ^
   --per-env-lmm
@@ -96,10 +139,10 @@ tables/robust_lmm_stress_triggered_hits.csv
 logs/convergence_log.csv
 ```
 
-#### 2b — Validate LMM Results and Generate Diagnostics
-**Script:** `code/02_primary_gxe_lmm_analysis/02_validate_lmm_results.py`
+#### 3b — Validate LMM Results and Generate Diagnostics
+**Script:** `code/03_lmm_baselines_confirmatory/02_primary_gxe_lmm_analysis/02_validate_lmm_results.py`
 ```bash
-python code/02_primary_gxe_lmm_analysis/02_validate_lmm_results.py ^
+python code/03_lmm_baselines_confirmatory/02_primary_gxe_lmm_analysis/02_validate_lmm_results.py ^
   --results_path   output\robust_lmm_analysis\tables\robust_lmm_comprehensive_results.csv ^
   --top_genes_path output\robust_lmm_analysis\tables\robust_lmm_stress_triggered_hits.csv ^
   --output_dir     output\robust_lmm_analysis\diagnostics
@@ -112,24 +155,13 @@ lmm_diagnostics.pdf
 
 ---
 
-### Step 3 — Run Confirmatory Analysis
-This final analysis validates the top G×E hits from the LMM using a different analytical framework. Note that this step requires correcting gene IDs in older ECT output files first.
+### Step 4 — Run Confirmatory Analysis
+This final analysis validates the top G×E hits from the LMM using a different analytical framework.
 
-#### 3a — Utility: Correct Gene IDs in ECT Result Files
-**Script:** `code/99_utilities/correct_gene_identifiers.py`
+#### 4a — Build the 21-Gene Confirmatory Set
+**Script:** `code/03_lmm_baselines_confirmatory/04_confirmatory_analysis/01_build_confirmatory_gene_set.py`
 ```bash
-python code/99_utilities/correct_gene_identifiers.py
-```
-**Key Outputs** (e.g., under `output\ect_v3m_drought_full_100\`):
-```
-ect_oof_r2_by_gene_corrected.csv
-ect_cis_mass_by_env_corrected.csv
-```
-
-#### 3b — Build the 21-Gene Confirmatory Set
-**Script:** `code/04_confirmatory_analysis/01_build_confirmatory_gene_set.py`
-```bash
-python code/04_confirmatory_analysis/01_build_confirmatory_gene_set.py ^
+python code/03_lmm_baselines_confirmatory/04_confirmatory_analysis/01_build_confirmatory_gene_set.py ^
   --lmm       output\robust_lmm_analysis\tables\robust_lmm_comprehensive_results.csv ^
   --out_list  data\maize\process\lists\gxe_confirmatory_21.csv ^
   --out_details output\final_analysis_reports\gene_modules\gxe_confirmatory_21_details.csv
@@ -140,10 +172,10 @@ data/maize/process/lists/gxe_confirmatory_21.csv
 output/final_analysis_reports/gene_modules/gxe_confirmatory_21_details.csv
 ```
 
-#### 3c — Analyze the Confirmatory Gene Set
-**Script:** `code/04_confirmatory_analysis/02_analyze_confirmatory_set.py`
+#### 4b — Analyze the Confirmatory Gene Set
+**Script:** `code/03_lmm_baselines_confirmatory/04_confirmatory_analysis/02_analyze_confirmatory_set.py`
 ```bash
-python code/04_confirmatory_analysis/02_analyze_confirmatory_set.py ^
+python code/03_lmm_baselines_confirmatory/04_confirmatory_analysis/02_analyze_confirmatory_set.py ^
   --list    data\maize\process\lists\gxe_confirmatory_21.csv ^
   --ect_r2  output\ect_v3m_drought_full_100\ect_oof_r2_by_gene_corrected.csv ^
   --out_dir output\final_analysis_reports\confirmatory_21
