@@ -40,8 +40,8 @@ Classical GWAS excels at additive effects but obscures non-linear, environment-d
 | Discovery | Evidence |
 |-----------|----------|
 | **Platinum Modulator Set** | 31 genes stable across ≥2/3 windows (7.85× enrichment, p=2.02×10⁻²⁸) |
-| **Proximal Regulatory Control** | 49.5% SNPs in regulatory elements (3.48× vs background, p=4.84×10⁻¹⁴) |
-| **TF Binding Proximity** | 2.93× enrichment within 1 kb of TF ChIP-seq peaks (p=1.81×10⁻³)<br/>*Source: Tu et al. 2020 maize leaf ChIP-seq (104 TFs), filtered z-score ≥3.0* |
+| **Proximal Regulatory Control** | 49.5% of influential SNPs have regulatory consequences (3.48× vs background, p=4.84×10⁻¹⁴) |
+| **TF Binding Proximity** | 2.93× enrichment within 1 kb of TF ChIP-seq peaks (12/93 vs 41/930; 95% CI 1.60–5.37; p=1.81×10⁻³)<br/>*Source: Tu et al. 2020 maize leaf ChIP-seq (104 TFs), filtered z-score ≥3.0* |
 | **ieQTL Validation** | 18/31 modulators significant at gene-level q ≤ 0.10 (58%); 9/18 lead SNPs overlap TF peaks (gene-level: 18 lead SNPs; SNP-level: 16 significant SNP–gene pairs) |
 | **Functional Decoupling** | Zero GO term overlap (modulators: photoprotection/developmental patterning; drivers: transport/cellular processes) |
 | **Mechanism ≠ Prediction** | ΔR² = 0.075 (95% CI −0.003 to 0.154; p = 0.08) — CI spanning zero indicates predictive gain is not robustly detectable under cross-validation, despite strong mechanistic signals |
@@ -64,14 +64,14 @@ Modulators act as **environment-gated switches** at proximal regulatory elements
 ┌────────────────────────────────────────────────────┐
 │  NETWORK MODULATORS (n=31)                         │
 │  • Non-linear, environment-dependent               │
-│  • TSS-proximal cis-regulatory control             │ 
+│  • TSS-proximal cis-regulatory control            │
 │  • Photoprotection/developmental patterning GO     │
-│  • Window-stable (±500kb ↔ ±2Mb)                   │
-│                                                    │
+│  • Window-stable (±500kb ↔ ±2Mb)                  │
+│                                                     │
 │  ADDITIVE DRIVERS (n=182)                          │
 │  • Linear genetic effects                          │
 │  • Transport/cell division/cellular processes      │
-│  • Functionally decoupled (Jaccard=0 with mods)    │
+│  • Functionally decoupled (Jaccard=0 with mods)   │
 └────────────────────────────────────────────────────┘
 ```
 
@@ -272,7 +272,7 @@ flowchart TB
     │       ├── 📜 05_attach_tf_families.py             # Annotates TF families from JASPAR metadata
     │       └── 📜 06_generate_motif_summary.py         # Summarizes motif disruption results
     │
-    └── 📂 06_sup_building_&_misc/
+    └── 📂 06_sup_building/
         └── 📜 build_supplement_v5.py                   # Builds supplementary tables (S1–S7) and data files (DS1–DS3)
 ```
 
@@ -453,8 +453,6 @@ Statistical Signal → ieQTL Validation → MPRA/Base Editing → Field Testing
 - Liu et al. (2020) and Zhang et al. (2021) for public maize drought datasets
 - Tu et al. (2020) for maize TF ChIP-seq binding data
 - MaizeGDB and Ensembl Plants for reference genome resources
-
-*Funding details to be added upon publication.*
 
 ---
 
