@@ -1,0 +1,38 @@
+# Required Python packages for the GxE LMM analysis pipeline.
+#
+# Python version >= 3.9 is recommended.
+#
+# To install all dependencies from the project root, run:
+# pip install -r requirements.txt
+
+# -- Core Scientific & Statistical Stack --
+# Used for data manipulation, numerical operations, and statistical modeling.
+numpy==1.26.2
+pandas==2.1.4
+scipy==1.11.4
+scikit-learn==1.3.2
+statsmodels==0.14.0
+
+# -- Data Input/Output --
+# Used for reading and writing various file formats like Parquet and Excel.
+openpyxl==3.1.2
+pyarrow==14.0.1
+
+# -- Plotting & Visualization --
+# Essential for generating diagnostic plots and result figures.
+matplotlib==3.8.2
+matplotlib-venn==0.11.9
+seaborn==0.13.0
+
+# -- Machine Learning & Parallelisation --
+# PyTorch is required for loading .pt data bundles.
+# For optimal performance, install the appropriate version for your platform (CPU or specific CUDA version)
+# from the official website before running the pip install command: https://pytorch.org/get-started/locally/
+torch>=2.1.0
+einops==0.7.0
+joblib==1.3.2
+
+# -- Utilities --
+# Used for displaying progress bars and handling HTTP requests.
+tqdm==4.66.1
+requests==2.31.0
