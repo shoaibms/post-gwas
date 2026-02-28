@@ -12,7 +12,7 @@ Generate all main and supplementary figures from the processed datasets and mode
 - **Software:** Python 3.9+ and packages in `requirements.txt`.
 - **Run location:** project root, e.g. `C:\Users\ms\Desktop\gwas\`.
 
-> Note: Figure scripts import local helpers under `code/04_figures/infrastructure/` (e.g., `colour_config.py`, `stat_utils.py`). `figure_02.py` additionally uses `data_loader_gwas.py` for curated inputs.
+> Note: Figure scripts import local helpers from `code/04_figures/infrastructure/` (`colour_config.py`, `data_loader_gwas.py`) and `code/04_figures/stat_utils.py`. The `stat_utils.py` module resides at the root of the `04_figures/` directory, not inside `infrastructure/`.
 
 ---
 
@@ -20,19 +20,19 @@ Generate all main and supplementary figures from the processed datasets and mode
 All commands below are intended to be run from the project root.
 
 ### Main figures
-**Figure 1**
+**Figure 1** — Multi-model convergence and window-stable platinum set
 ```bash
 python code/04_figures/main/figure_01.py
 ```
-**Figure 2**
+**Figure 2** — Modulator SNP enrichment in proximal regulatory regions
 ```bash
 python code/04_figures/main/figure_02.py
 ```
-**Figure 3**
+**Figure 3** — Interaction eQTL evidence and variant prioritisation
 ```bash
 python code/04_figures/main/figure_03.py
 ```
-**Figure 4**
+**Figure 4** — Functional decoupling and predictive leverage
 ```bash
 python code/04_figures/main/figure_04.py
 ```
