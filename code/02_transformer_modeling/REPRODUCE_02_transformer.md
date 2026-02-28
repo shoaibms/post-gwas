@@ -11,17 +11,19 @@ Train the Environment‑Conditional Transformer (ECT) to dissect genotype‑by�
   - `output/geno/cohort_pruned.pgen/.pvar/.psam`
   - `output/geno/pcs.eigenvec`
 - **Software:** Python 3.9+. PyTorch (CPU or CUDA build appropriate for your GPU/OS) and packages listed in `requirements.txt`.
-- **Python Dependencies:** From the project root (`C:\Users\ms\Desktop\gwas\`):
+- **Python Dependencies:** Install from the repository root:
   ```bash
   pip install -r requirements.txt
   ```
 
 > Note: Install PyTorch following the official instructions for your platform (Windows/RTX‑2060 users should select the correct CUDA/CPU wheel from pytorch.org).
 
+> **Platform note:** All multi-line commands below use `^` for line continuation (Windows cmd). On Linux/macOS, replace `^` with `\`.
+
 ---
 
 ## Workflow Execution
-Run all commands from the **project root**: `C:\Users\ms\Desktop\gwas\`.
+Run all commands from the **repository root** (e.g. `C:\Users\...\post-gwas\` on Windows, or the cloned repo directory on Linux/macOS).
 
 ### Step 1 — Build the ECT data bundle
 This step assembles model inputs (genotypes, expression, environment labels, PCs, gene–SNP window mask) into a single `.pt` file with a manifest for provenance.
@@ -29,10 +31,10 @@ This step assembles model inputs (genotypes, expression, environment labels, PCs
 **Script:** `code/02_transformer_modeling/01_build_transformer_bundle.py`
 ```bash
 python code/02_transformer_modeling/01_build_transformer_bundle.py ^
-  --output-file output\ect\bundles\transformer_data_win1Mb.pt ^
+  --output-file output/ect/bundles/transformer_data_win1Mb.pt ^
   --cis-window-kb 1000
 ```
-**Key Outputs (created under `output\ect\bundles\`):**
+**Key Outputs (created under `output/ect/bundles/`):**
 - `transformer_data_win1Mb.pt`
 - `preparation_manifest.json`
 - `environment_label_map.json`
@@ -45,22 +47,22 @@ Run cross‑validated training with fixed seeds and record summary diagnostics. 
 **Script:** `code/02_transformer_modeling/02_train_env_conditional_transformer.py`
 ```bash
 python code/02_transformer_modeling/02_train_env_conditional_transformer.py ^
-  --data-file output\ect\bundles\transformer_data_win1Mb.pt ^
-  --out-dir  output\ect\runs\ect_win1Mb ^
+  --data-file output/ect/bundles/transformer_data_win1Mb.pt ^
+  --out-dir  output/ect/runs/ect_win1Mb ^
   --kfolds   5 ^
   --n-pcs    20 ^
   --seed     42 ^
   --save-attention ^
   --dump-fold-sentinels
 ```
-**Key Outputs (created under `output\ect\runs\ect_win1Mb\`):**
+**Key Outputs (created under `output/ect/runs/ect_win1Mb/`):**
 - `ect_oof_r2_by_gene.csv` — cross‑validated out‑of‑fold R² by gene
 - `ect_cis_mass_joined.csv` — cis mass metrics joined across environments
 - `ect_summary.json` — run configuration and headline metrics
 - `correlation_summary.csv` — model vs baseline comparison (if enabled)
 - `ect_alpha_by_gene.csv` — per‑gene attention summaries (when `--save-attention` is used)
 - `trials.csv`, `trial_config.json`, `best_trial.json` — tuning/selection metadata (when tuning is enabled)
-- `checkpoints\*.pt` — optional saved checkpoints (if configured)
+- `checkpoints/*.pt` — optional saved checkpoints (if configured)
 
 ---
 
