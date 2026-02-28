@@ -20,9 +20,9 @@ All commands must be executed from the **project root directory** (`C:\Users\ms\
 ### Step 1 — Audit Raw Inputs
 This script assesses the integrity, dimensions, and sample/feature overlaps of the raw input files before any processing.
 
-**Script:** `code/01_data_preprocessing/01_audit_inputs/audit_raw_inputs.py`
+**Script:** `code/01_data_preprocessing/00_audit_raw_inputs.py`
 ```bash
-python code/01_data_preprocessing/01_audit_inputs/audit_raw_inputs.py
+python code/01_data_preprocessing/00_audit_raw_inputs.py
 ```
 **Key Outputs:**
 - `output/inspect/audit_report.md`
@@ -35,9 +35,9 @@ python code/01_data_preprocessing/01_audit_inputs/audit_raw_inputs.py
 #### 2a — Filter Expression Data to AGPv4 Gene IDs
 This script standardizes the expression matrices by filtering gene columns to match the official AGPv4 reference annotation.
 
-**Script:** `code/01_data_preprocessing/02_build_analysis_data/01_filter_expression_to_agpv4.py`
+**Script:** `code/01_data_preprocessing/01_filter_expression_to_agpv4.py`
 ```bash
-python code/01_data_preprocessing/02_build_analysis_data/01_filter_expression_to_agpv4.py
+python code/01_data_preprocessing/01_filter_expression_to_agpv4.py
 ```
 **Key Outputs:**
 - `output/data_filtered/WW_209-Uniq_FPKM.agpv4.txt.gz`
@@ -47,9 +47,9 @@ python code/01_data_preprocessing/02_build_analysis_data/01_filter_expression_to
 #### 2b — Prepare All Model Inputs
 This is the main pipeline script. It integrates the filtered expression data with genotypes (VCF) and phenotypes, and automates the entire PLINK2 workflow for genotype processing.
 
-**Script:** `code/01_data_preprocessing/02_build_analysis_data/02_prepare_model_inputs.py`
+**Script:** `code/01_data_preprocessing/02_prepare_model_inputs.py`
 ```bash
-python code/01_data_preprocessing/02_build_analysis_data/02_prepare_model_inputs.py ^
+python code/01_data_preprocessing/02_prepare_model_inputs.py ^
   --cohort-csv output/cohort/core_all3_env.csv ^
   --ww output/data_filtered/WW_209-Uniq_FPKM.agpv4.txt.gz ^
   --ws1 output/data_filtered/WS1_208-uniq_FPKM.agpv4.txt.gz ^
@@ -64,9 +64,9 @@ python code/01_data_preprocessing/02_build_analysis_data/02_prepare_model_inputs
 #### 3a — Check Cis-SNP Coverage
 This script validates that a sufficient proportion of genes have SNP coverage within their cis-regulatory window, a critical gate for eQTL analysis.
 
-**Script:** `code/01_data_preprocessing/03_quality_control_outputs/03_check_cis_coverage.py`
+**Script:** `code/01_data_preprocessing/03_check_cis_coverage.py`
 ```bash
-python code/01_data_preprocessing/03_quality_control_outputs/03_check_cis_coverage.py ^
+python code/01_data_preprocessing/03_check_cis_coverage.py ^
   --pvar output/geno/cohort_pruned.pvar ^
   --gene_list output/data/gene_map.csv
 ```
@@ -76,9 +76,9 @@ python code/01_data_preprocessing/03_quality_control_outputs/03_check_cis_covera
 #### 3b — Verify AGPv4 ID Compliance
 This script provides a final confirmation that all gene identifiers in the processed expression files conform strictly to the AGPv4 format.
 
-**Script:** `code/01_data_preprocessing/03_quality_control_outputs/04_verify_agpv4_ids.py`
+**Script:** `code/01_data_preprocessing/04_verify_agpv4_ids.py`
 ```bash
-python code/01_data_preprocessing/03_quality_control_outputs/04_verify_agpv4_ids.py
+python code/01_data_preprocessing/04_verify_agpv4_ids.py
 ```
 **Key Output:**
 - A validation report printed to the console.
