@@ -5,17 +5,19 @@ This guide details the computational workflow to preprocess all raw data for the
 
 ## Prerequisites
 - **Data:** All raw data files must be present as described in `Data_note.md`.
-- **Software:** Python 3.9+ and PLINK 2.0. The `plink2.exe` executable must be on the system PATH or in the project root.
-- **Python Dependencies:** Install from the project root (`C:\Users\ms\Desktop\gwas\`):
+- **Software:** Python 3.9+ and PLINK 2.0. The `plink2` executable must be on the system PATH or in the project root.
+- **Python Dependencies:** Install from the repository root:
   ```bash
   pip install -r requirements.txt
   ```
+
+> **Platform note:** All multi-line commands below use `^` for line continuation (Windows cmd). On Linux/macOS, replace `^` with `\`.
 
 ---
 
 ## Workflow Execution
 
-All commands must be executed from the **project root directory** (`C:\Users\ms\Desktop\gwas\`).
+All commands must be executed from the **repository root directory** (e.g. `C:\Users\...\post-gwas\` on Windows, or the cloned repo directory on Linux/macOS).
 
 ### Step 1 — Audit Raw Inputs
 This script assesses the integrity, dimensions, and sample/feature overlaps of the raw input files before any processing.
@@ -54,7 +56,7 @@ python code/01_data_preprocessing/02_prepare_model_inputs.py ^
   --ww output/data_filtered/WW_209-Uniq_FPKM.agpv4.txt.gz ^
   --ws1 output/data_filtered/WS1_208-uniq_FPKM.agpv4.txt.gz ^
   --ws2 output/data_filtered/WS2_210-uniq_FPKM.agpv4.txt.gz ^
-  --gff3 data/maize/Zea_mesays.B73_RefGen_v4.gff3.gz
+  --gff3 data/maize/Zea_mays.B73_RefGen_v4.gff3.gz
 ```
 
 ---
