@@ -191,7 +191,7 @@ flowchart TB
 │   ├── 📄 Data_note.md                                 # Comprehensive data documentation
 │   ├── 📦 supplementary_data.zip                       # Supplementary data files (DS1–DS3)
 │   └── 📦 supplementary_tables.zip                     # Supplementary tables (S1–S7)
-├── 📄 requirement.txt                                  # Python dependencies (note: typo in filename)
+├── 📄 requirement.txt                                  # Python dependencies 
 │
 ├── 📂 01_data_preprocessing/
 │   ├── 📄 REPRODUCE_01_preprocessing.md                # Step-by-step preprocessing guide
