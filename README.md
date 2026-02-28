@@ -1,4 +1,4 @@
-## Proximal cis-regulatory variants organize maize drought genotype-by-environment architecture
+## A dual cis-regulatory architecture encodes drought genotype-by-environment interactions in maize
 
 ![Status](https://img.shields.io/badge/status-manuscript%20in%20preparation-yellow)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://opensource.org/licenses/MIT)
@@ -42,8 +42,8 @@ Classical GWAS excels at additive effects but obscures non-linear, environment-d
 | **Platinum Modulator Set** | 31 genes stable across ≥2/3 windows (7.85× enrichment, p=2.02×10⁻²⁸) |
 | **Proximal Regulatory Control** | 49.5% SNPs in regulatory elements (3.48× vs background, p=4.84×10⁻¹⁴) |
 | **TF Binding Proximity** | 2.93× enrichment within 1 kb of TF ChIP-seq peaks (p=1.81×10⁻³)<br/>*Source: Tu et al. 2020 maize leaf ChIP-seq (104 TFs), filtered z-score ≥3.0* |
-| **ieQTL Validation** | 18/31 modulators significant at gene-level q < 0.10 (58%); 9/16 lead SNPs overlap TF peaks |
-| **Functional Decoupling** | Zero GO term overlap (modulators: PSII photoinhibition/development; drivers: transport/cellular) |
+| **ieQTL Validation** | 18/31 modulators significant at gene-level q ≤ 0.10 (58%); 9/18 lead SNPs overlap TF peaks |
+| **Functional Decoupling** | Zero GO term overlap (modulators: photoprotection/developmental patterning; drivers: transport/cellular processes) |
 | **Mechanism ≠ Prediction** | Modest phenotypic gain (ΔR²=0.075, p=0.08) despite strong mechanistic signals |
 
 ---
@@ -65,7 +65,7 @@ Modulators act as **environment-gated switches** at proximal regulatory elements
 │  NETWORK MODULATORS (n=31)                         │
 │  • Non-linear, environment-dependent               │
 │  • TSS-proximal cis-regulatory control             │
-│  • PSII photoinhibition/development GO enrichment  │
+│  • Photoprotection/developmental patterning GO     │
 │  • Window-stable (±500kb ↔ ±2Mb)                   │
 │                                                    │
 │  ADDITIVE DRIVERS (n=182)                          │
@@ -139,15 +139,15 @@ flowchart TB
         W --> X2[TF Proximity<br/>Analysis]
         V --> Y[ieQTL Discovery<br/>Δ-expression model]
         Y --> Z1[18/31 significant<br/>gene-level]
-        Z1 --> Z2[9/16 overlap<br/>TF peaks]
+        Z1 --> Z2[9/18 overlap<br/>TF peaks]
         Z2 --> AA[Motif Disruption<br/>ΔLLR analysis]
     end
     
     U --> AB
     
     subgraph Functional["6. Functional Analysis"]
-        AB[GO Enrichment] --> AC1[Modulators:<br/>PSII photoinhibition/development]
-        AB --> AC2[Drivers:<br/>transport/cellular]
+        AB[GO Enrichment] --> AC1[Modulators:<br/>photoprotection/<br/>development]
+        AB --> AC2[Drivers:<br/>transport/<br/>cellular]
         AC1 --> AD{Term<br/>Overlap?}
         AC2 --> AD
         AD -->|Jaccard=0| AE[Complete<br/>Decoupling]
@@ -158,7 +158,7 @@ flowchart TB
     subgraph Prediction["7. Predictive Modeling"]
         AF[93 modulator SNPs] --> AG[Ridge Regression<br/>5-fold CV]
         AG --> AH[PC1 drought<br/>phenotype]
-        AH --> AI[ΔR²=0.076<br/>p=0.08]
+        AH --> AI[ΔR²=0.075<br/>p=0.08]
         AI --> AJ[Mechanism ≠<br/>Prediction]
     end
     
@@ -192,27 +192,24 @@ flowchart TB
 │
 ├── 📂 01_data_preprocessing/
 │   ├── 📄 REPRODUCE_01_preprocessing.md                # Step-by-step preprocessing guide
-│   ├── 📂 01_audit_inputs/
-│   │   └── 📜 audit_raw_inputs.py                      # Audit of raw VCF, FPKM, and metadata integrity
-│   ├── 📂 02_build_analysis_data/
-│   │   ├── 📜 01_filter_expression_to_agpv4.py         # Filters FPKM files to retain only AGPv4 genes
-│   │   └── 📜 02_prepare_model_inputs.py               # Generates all model-ready data (T_long, P, geno)
-│   └── 📂 03_quality_control_outputs/
-│       ├── 📜 03_check_cis_coverage.py                 # Validates SNP coverage for genes post-processing
-│       └── 📜 04_verify_agpv4_ids.py                   # Confirms final files use strict AGPv4 format
+│   ├── 📜 00_audit_raw_inputs.py                       # Audit of raw VCF, FPKM, and metadata integrity
+│   ├── 📜 01_filter_expression_to_agpv4.py             # Filters FPKM files to retain only AGPv4 genes
+│   ├── 📜 02_prepare_model_inputs.py                   # Generates all model-ready data (T_long, P, geno)
+│   ├── 📜 03_check_cis_coverage.py                     # Validates SNP coverage for genes post-processing
+│   └── 📜 04_verify_agpv4_ids.py                       # Confirms final files use strict AGPv4 format
 │
 ├── 📂 02_transformer_modeling/
 │   ├── 📄 REPRODUCE_02_transformer.md                  # Transformer training guide
-│   ├── 📂 01_bundle/
-│   │   └── 📜 build_transformer_bundle.py              # Assembles ECT data bundle with manifest
-│   └── 📂 02_train_ect/
-│       └── 📜 train_env_conditional_transformer.py     # Cross-validated ECT training with diagnostics
+│   ├── 📜 01_build_transformer_bundle.py               # Assembles ECT data bundle with manifest
+│   └── 📜 02_train_env_conditional_transformer.py      # Cross-validated ECT training with diagnostics
 │
 ├── 📂 03_lmm_baselines_confirmatory/
 │   ├── 📄 REPRODUCE_03_lmm.md                          # LMM analysis guide
+│   ├── 📂 00_data_clean_up/
+│   │   └── 📜 02_freeze_accession_cohorts.py           # Creates frozen accession lists for reproducible cohorts
 │   ├── 📂 01_gene_selection_and_identifiers/
 │   │   ├── 📜 01_correct_gene_identifiers.py           # Utility to normalize AGPv4 gene IDs
-│   │   └── 📜 02_select_eqtl_informed_genes.py         # Selects the 100 target genes using published eQTL data
+│   │   └── 📜 02_select_eqtl_informed_genes.py         # Selects target genes using published eQTL data
 │   ├── 📂 02_primary_gxe_lmm_analysis/
 │   │   ├── 📜 01_run_robust_lmm.py                     # Main LMM for G×E effects and ΔR² reported in manuscript
 │   │   └── 📜 02_validate_lmm_results.py               # Generates diagnostic plots/summaries for the LMM
@@ -226,15 +223,15 @@ flowchart TB
 │
 ├── 📂 04_figures/
 │   ├── 📄 REPRODUCE_04_figures.md                      # Figure generation guide
+│   ├── 📜 stat_utils.py                                # Statistical helper functions
 │   ├── 📂 infrastructure/
 │   │   ├── 📜 colour_config.py                         # Centralized color palettes and styling
-│   │   ├── 📜 data_loader_gwas.py                      # Curated data loading utilities for figures
-│   │   └── 📜 stat_utils.py                            # Statistical helper functions
+│   │   └── 📜 data_loader_gwas.py                      # Curated data loading utilities for figures
 │   ├── 📂 main/
-│   │   ├── 📜 figure_01.py                             # G×E architecture schematic & workflow
-│   │   ├── 📜 figure_02.py                             # Positional and functional context of influential SNPs
-│   │   ├── 📜 figure_03.py                             # Landscape and calibration of cis G×E associations
-│   │   └── 📜 figure_04.py                             # Functional architecture and predictive leverage
+│   │   ├── 📜 figure_01.py                             # Multi-model convergence and window-stable platinum set
+│   │   ├── 📜 figure_02.py                             # Modulator SNP enrichment in proximal regulatory regions
+│   │   ├── 📜 figure_03.py                             # Interaction eQTL evidence and variant prioritisation
+│   │   └── 📜 figure_04.py                             # Functional decoupling and predictive leverage
 │   └── 📂 supplementary/
 │       ├── 📜 figure_s1.py                             # Window-stability of cis G×E calls
 │       ├── 📜 figure_s2.py                             # Consequence- and distance-specific enrichment
@@ -243,28 +240,34 @@ flowchart TB
 │       ├── 📜 figure_s5.py                             # Representative TF-proximal modulator loci
 │       └── 📜 figure_s6.py                             # GO-term decoupling between modulators and drivers
 │
-└── 📂 05_postgwas_analysis/
-    ├── 📄 REPRODUCE_05_postGWAS.md                     # Post-GWAS analysis guide
-    ├── 📂 01_platinum_set_definition/
-    │   ├── 📜 01_run_window_stability.py               # Window stability analysis across ±500kb/1Mb/2Mb
-    │   └── 📜 02_select_influential_snps.py            # Selects top cis-SNPs for each platinum modulator
-    ├── 📂 02_snp_characterization/
-    │   ├── 📜 01_generate_matched_background.py        # Creates distance-matched control SNPs (10:1 ratio)
-    │   ├── 📜 02_run_consequence_enrichment.py         # VEP consequence enrichment analysis
-    │   └── 📜 03_run_tf_proximity_analysis.py          # TF binding site proximity analysis
-    ├── 📂 03_functional_decoupling/
-    │   ├── 📜 01_download_go_annotations.py            # Downloads AGPv4 GO annotations
-    │   └── 📜 02_run_go_enrichment.py                  # Hypergeometric GO enrichment test
-    ├── 📂 04_predictive_modeling/
-    │   ├── 📜 01_prepare_nrs_data.py                   # Prepares data for nested ridge regression
-    │   └── 📜 02_run_nrs_prediction.py                 # Ridge regression with 5-fold CV
-    └── 📂 05_mechanistic_validation/
-        ├── 📜 01_run_ieqtl_discovery.py                # Δ-expression ieQTL mapping with robust SE
-        ├── 📜 02_finalize_ieqtl_results.py             # Gene-level FDR correction and summary
-        ├── 📜 03_download_motif_data.py                # Downloads JASPAR plant PWMs
-        ├── 📜 04_run_motif_disruption.py               # ΔLLR motif disruption analysis
-        ├── 📜 05_attach_tf_families.py                 # Annotates TF families from JASPAR metadata
-        └── 📜 06_generate_motif_summary.py             # Summarizes motif disruption results
+├── 📂 05_postgwas_analysis/
+│   ├── 📄 REPRODUCE_05_postGWAS.md                     # Post-GWAS analysis guide
+│   ├── 📜 create_de_literature_lists.py                # Generates 500-gene DE panel from WS2 vs WW paired t-test
+│   ├── 📜 create_tf_bed.py                             # Converts Tu et al. 2020 ChIP-seq data to TF binding BED
+│   ├── 📜 fetch_jaspar_metadata.py                     # Downloads JASPAR plant CORE motif metadata (family, class)
+│   ├── 📂 01_platinum_set_definition/
+│   │   ├── 📜 01_run_window_stability.py               # Window stability analysis across ±500kb/1Mb/2Mb
+│   │   └── 📜 02_select_influential_snps.py            # Selects top cis-SNPs for each platinum modulator
+│   ├── 📂 02_snp_characterisation/
+│   │   ├── 📜 01_generate_matched_background.py        # Creates distance-matched control SNPs (10:1 ratio)
+│   │   ├── 📜 02_run_consequence_enrichment.py         # VEP consequence enrichment analysis
+│   │   └── 📜 03_run_tf_proximity_analysis.py          # TF binding site proximity analysis
+│   ├── 📂 03_functional_decoupling/
+│   │   ├── 📜 01_download_go_annotations.py            # Downloads AGPv4 GO annotations
+│   │   └── 📜 02_run_go_enrichment.py                  # Hypergeometric GO enrichment test
+│   ├── 📂 04_predictive_modeling/
+│   │   ├── 📜 01_prepare_nrs_data.py                   # Prepares data for nested ridge regression
+│   │   └── 📜 02_run_nrs_prediction.py                 # Ridge regression with 5-fold CV
+│   └── 📂 05_mechanistic_validation/
+│       ├── 📜 01_run_ieqtl_discovery.py                # Δ-expression ieQTL mapping with robust SE
+│       ├── 📜 02_finalize_ieqtl_results.py             # Gene-level FDR correction and summary
+│       ├── 📜 03_download_motif_data.py                # Downloads JASPAR plant PWMs
+│       ├── 📜 04_run_motif_disruption.py               # ΔLLR motif disruption analysis
+│       ├── 📜 05_attach_tf_families.py                 # Annotates TF families from JASPAR metadata
+│       └── 📜 06_generate_motif_summary.py             # Summarizes motif disruption results
+│
+└── 📂 06_sup_building_&_misc/
+    └── 📜 build_supplement_v5.py                       # Builds supplementary tables (S1–S7) and data files (DS1–DS3)
 ```
 
 ---
@@ -295,12 +298,12 @@ Execute from project root. Each stage has a dedicated `REPRODUCE_*.md` guide.
 
 ```bash
 # 01 → Preprocessing (see REPRODUCE_01_preprocessing.md)
-python code/01_data_preprocessing/01_audit_inputs/audit_raw_inputs.py
-python code/01_data_preprocessing/02_build_analysis_data/02_prepare_model_inputs.py
+python code/01_data_preprocessing/00_audit_raw_inputs.py
+python code/01_data_preprocessing/02_prepare_model_inputs.py
 
 # 02 → Transformer (see REPRODUCE_02_transformer.md)
-python code/02_transformer_modeling/01_bundle/build_transformer_bundle.py
-python code/02_transformer_modeling/02_train_ect/train_env_conditional_transformer.py
+python code/02_transformer_modeling/01_build_transformer_bundle.py
+python code/02_transformer_modeling/02_train_env_conditional_transformer.py
 
 # 03 → LMM + Baselines (see REPRODUCE_03_lmm.md)
 Rscript code/03_lmm_baselines_confirmatory/03_baseline_and_comparative_models/01_run_baseline_matrix_eqtl.R
@@ -350,7 +353,9 @@ Generated by preprocessing pipeline; inputs for all downstream analyses:
 
 - **Expression:** Liu et al. (2020) *Genome Biology* 21:163 → NGDC GSA (CRA002002)
 - **Genotypes:** Liu et al. (2020) → NGDC GVM (GVM000048)
+- **Phenotypes:** Zhang et al. (2021) *Genome Biology* 22:260
 - **Reference:** Ensembl Plants B73 RefGen_v4 (AGPv4)
+- **TF binding:** Tu et al. (2020) *Nature Communications* 11:5089 (104 TFs, ChIP-seq)
 
 > **Note:** We do not redistribute raw data. See [Data_note.md](Data_note.md) for download instructions.
 
@@ -371,9 +376,9 @@ Generated by preprocessing pipeline; inputs for all downstream analyses:
 | **Multi-Model Triangulation** | Orthogonal learners (ECT, RKHS, XGBoost) avoid single-model artifacts |
 | **Window Stability Auditing** | Platinum set requires ≥2/3 cis-window convergence (7.85× enrichment) |
 | **Regulatory Grounding** | Distance-matched controls (10:1), VEP consequences, TF proximity, ieQTL |
-| **Negative Controls** | Environment permutation (ΔR² −0.032), depth-1 XGBoost (H=0.015) |
+| **Negative Controls** | Environment permutation (KS D=0.650, p=2.81×10⁻⁸), depth-1 XGBoost (H=0.015) |
 
-**Validation:** BH-FDR q < 0.05 (standard), q < 0.10 (ieQTL gene-level) | Hypergeometric enrichment tests | Heteroscedasticity-robust SE | λ_GC = 0.62 (conservative)
+**Validation:** BH-FDR q < 0.05 (standard), q ≤ 0.10 (ieQTL gene-level) | Hypergeometric enrichment tests | Heteroscedasticity-robust (HC3) SE | ieQTL calibration: λ_GC = 1.92 overall, 0.62 on null (p > 0.1)
 
 ---
 
@@ -402,18 +407,18 @@ Statistical Signal → ieQTL Validation → MPRA/Base Editing → Field Testing
 
 ### What Works
 ✅ **Multi-model convergence** resolves non-linear G×E as coherent regulatory class  
-✅ **Window stability** separates biology from tuning artifacts (ρ ≈ 0.82 across windows)  
+✅ **Window stability** separates biology from tuning artifacts (ρ = 0.818 across windows)  
 ✅ **Proximal cis-control** concentrates at TSS-adjacent elements  
-✅ **Functional decoupling** reveals distinct biological programs (PSII photoinhibition/development vs transport/cellular)
+✅ **Functional decoupling** reveals distinct biological programmes (photoprotection/developmental patterning vs transport/cellular)
 
 ### What Surprised Us
-❗ **Mechanism ≠ Prediction:** Strong regulatory signals, modest phenotypic gain (ΔR²=0.075)  
+❗ **Mechanism ≠ Prediction:** Strong regulatory signals, modest phenotypic gain (ΔR²=0.075, p=0.08)  
 → *Explanation:* Polygenic buffering, trans-regulatory compensation, network degeneracy
 
 ❗ **Complete GO separation:** Zero term overlap (Jaccard=0) between modulators and drivers  
 → *Implication:* Fundamental biological distinction, not statistical artifact
 
-❗ **High ieQTL success:** 58% at lenient FDR (q < 0.10) despite conservative λ_GC = 0.62  
+❗ **High ieQTL success:** 18/31 genes at gene-level FDR (q ≤ 0.10); ieQTL calibration confirms true signal (λ_GC = 1.92) with conservative null behaviour (λ_GC = 0.62 for p > 0.1)  
 → *Interpretation:* True regulatory signal, not genomic inflation
 
 ---
@@ -421,11 +426,11 @@ Statistical Signal → ieQTL Validation → MPRA/Base Editing → Field Testing
 ## 📚 Citation
 
 ```bibtex
-@article{maize_drought_gxe_2025,
-  title={Proximal cis-regulatory variants organize maize drought genotype-by-environment architecture},
-  author={[Authors]},
+@article{mirza_dual_cisreg_2026,
+  title={A dual cis-regulatory architecture encodes drought genotype-by-environment interactions in maize},
+  author={Mirza, Shoaib and Kant, Surya and Hayden, Matthew J.},
   journal={[Journal]},
-  year={2025},
+  year={2026},
   doi={[DOI]}
 }
 ```
@@ -433,12 +438,14 @@ Statistical Signal → ieQTL Validation → MPRA/Base Editing → Field Testing
 **Key References:**
 - Liu et al. (2020). Mapping regulatory variants in maize drought response. *Genome Biology* 21:163
 - Zhang et al. (2021). Metabolome-mediated drought adaptation of maize. *Genome Biology* 22:260
+- Tu et al. (2020). Reconstructing the maize leaf regulatory network using ChIP-seq data of 104 transcription factors. *Nature Communications* 11:5089
 
 ---
 
 ## 📧 Contact & Contributing
 
-**Lead Researcher:** Shoaib M. Mirza | shoaibmirza2200@gmail.com  
+**Lead Researcher:** Shoaib Mirza | shoaib.mirza@agriculture.vic.gov.au | shoaibmirza2200@gmail.com  
+**Co-authors:** Surya Kant, Matthew J. Hayden  
 **Institution:** La Trobe University & Agriculture Victoria, Australia  
 **Repository:** [github.com/shoaibms/post-gwas](https://github.com/shoaibms/post-gwas)
 
@@ -449,7 +456,9 @@ Statistical Signal → ieQTL Validation → MPRA/Base Editing → Field Testing
 ## 🙏 Acknowledgments
 
 - Liu et al. (2020) and Zhang et al. (2021) for public maize drought datasets
+- Tu et al. (2020) for maize TF ChIP-seq binding data
 - MaizeGDB and Ensembl Plants for reference genome resources
+- [Funding sources and computational resources to be added]
 
 ---
 
@@ -465,6 +474,6 @@ MIT License – See [LICENSE](LICENSE) for details
 
 *From statistical signals to testable biology*
 
-![Workflow](https://img.shields.io/badge/01-Preprocessing-4caf50) ![Workflow](https://img.shields.io/badge/02-Transformer-ff9800) ![Workflow](https://img.shields.io/badge/03-LMM-2196f3) ![Workflow](https://img.shields.io/badge/04-Figures-9c27b0) ![Workflow](https://img.shields.io/badge/05-PostGWAS-e91e63)
+![Workflow](https://img.shields.io/badge/01-Preprocessing-4caf50) ![Workflow](https://img.shields.io/badge/02-Transformer-ff9800) ![Workflow](https://img.shields.io/badge/03-LMM-2196f3) ![Workflow](https://img.shields.io/badge/04-Figures-9c27b0) ![Workflow](https://img.shields.io/badge/05-PostGWAS-e91e63) ![Workflow](https://img.shields.io/badge/06-Supplements-607d8b)
 
 </div>
