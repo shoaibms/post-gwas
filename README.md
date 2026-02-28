@@ -272,7 +272,7 @@ flowchart TB
     │       ├── 📜 05_attach_tf_families.py             # Annotates TF families from JASPAR metadata
     │       └── 📜 06_generate_motif_summary.py         # Summarizes motif disruption results
     │
-    └── 📂 06_sup_building_&_misc/
+    └── 📂 06_sup_building/
         └── 📜 build_supplement_v5.py                   # Builds supplementary tables (S1–S7) and data files (DS1–DS3)
 
 ```
