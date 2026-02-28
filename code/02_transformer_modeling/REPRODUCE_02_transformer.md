@@ -26,9 +26,9 @@ Run all commands from the **project root**: `C:\Users\ms\Desktop\gwas\`.
 ### Step 1 — Build the ECT data bundle
 This step assembles model inputs (genotypes, expression, environment labels, PCs, gene–SNP window mask) into a single `.pt` file with a manifest for provenance.
 
-**Script:** `code/02_transformer_modeling/01_bundle/build_transformer_bundle.py`
+**Script:** `code/02_transformer_modeling/01_build_transformer_bundle.py`
 ```bash
-python code/02_transformer_modeling/01_bundle/build_transformer_bundle.py ^
+python code/02_transformer_modeling/01_build_transformer_bundle.py ^
   --output-file output\ect\bundles\transformer_data_win1Mb.pt ^
   --cis-window-kb 1000
 ```
@@ -42,9 +42,9 @@ python code/02_transformer_modeling/01_bundle/build_transformer_bundle.py ^
 ### Step 2 — Train the Environment‑Conditional Transformer (ECT)
 Run cross‑validated training with fixed seeds and record summary diagnostics. The minimal invocation uses the bundle from Step 1; optional flags can export attention maps or fold sentinels.
 
-**Script:** `code/02_transformer_modeling/02_train_ect/train_env_conditional_transformer.py`
+**Script:** `code/02_transformer_modeling/02_train_env_conditional_transformer.py`
 ```bash
-python code/02_transformer_modeling/02_train_ect/train_env_conditional_transformer.py ^
+python code/02_transformer_modeling/02_train_env_conditional_transformer.py ^
   --data-file output\ect\bundles\transformer_data_win1Mb.pt ^
   --out-dir  output\ect\runs\ect_win1Mb ^
   --kfolds   5 ^
